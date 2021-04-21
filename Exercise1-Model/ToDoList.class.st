@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'owner',
-		'elements'
+		'allNotes'
 	],
 	#classInstVars : [
 		'owner',
@@ -30,32 +30,29 @@ AssertionChecker
 	raising: InstanceCreationFailed 
 ]
 
-{ #category : #'as yet unclassified' }
-ToDoList class >> ownedBy: anOwner
-withelements: aCollection [
-
-self assertIsValidOwner: anOwner.
-self assertWithValidElements: aCollection. 
-
-^ self new initializeBelongingTo: anOwner withElements: aCollection.
-
-]
-
-{ #category : #accessing }
-ToDoList >> elements [
-	^ elements
-]
-
 { #category : #initialization }
-ToDoList >> initializeBelongingTo: anOwner withElements: aCollection [ 
+ToDoList class >> initializeBelongingTo: anOwner [
+
+	self assertIsValidOwner: anOwner .
 	
-	owner:= anOwner.
-	elements:= aCollection.
+	^ self new initializeBelongingTo: anOwner .
 ]
 
 { #category : #'instance creation' }
-ToDoList >> newElement: anElement [ 
-	self elements with: anElement .
+ToDoList >> addElement: aTask [ 
+	self listAllNotes add: aTask.
+]
+
+{ #category : #initialization }
+ToDoList >> initializeBelongingTo: anOwner [
+	
+	owner:= anOwner.
+	allNotes := OrderedCollection new.
+]
+
+{ #category : #'as yet unclassified' }
+ToDoList >> listAllNotes [
+	^ allNotes
 ]
 
 { #category : #accessing }

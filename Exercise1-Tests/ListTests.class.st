@@ -2,8 +2,8 @@ Class {
 	#name : #ListTests,
 	#superclass : #TestCase,
 	#instVars : [
-		'owner',
-		'startingElements'
+		'fechaTest',
+		'closesOn'
 	],
 	#classInstVars : [
 		'owner'
@@ -12,45 +12,10 @@ Class {
 }
 
 { #category : #tests }
-ListTests >> testCreation [
-
-| aList |
-
-aList := ToDoList ownedBy: 'Federico' withelements: (Array with: 'Crear una to do list').
-		
-self assert: aList owner equals: 'Federico'.
-self assert: aList elements equals: (Array with: 'Crear una to do list').
-]
-
-{ #category : #tests }
-ListTests >> testInsertingAnElement [
-
-| aList |
-aList := ToDoList ownedBy: 'Federico' withelements: #().
-
-	self assert: aList elements isEmpty .
-
-aList newElement: 'Regar las plantas'.
-
-	self assert: aList elements equals: #('Regar las plantas').
-]
-
-{ #category : #tests }
-ListTests >> testRemovingAnElement [ 
-
-| aList |
-aList := ToDoList ownedBy: 'Federico' withelements: #().
-
-	self assert: aList elements isEmpty .
+ListTests >> testListCreation [
 	
-aList addElement: 'Regar las plantas'.
+	| aList |
+	aList := ToDoList initializeBelongingTo: 'Mercap'.
 	
-	self assert: aList elements equals: #('Regar las plantas').
-
-
-aList removeElement: 'Regar las plantas'.
-	
-	self assert: aList elements equals: #().
-	
-
+	self assertCollection: aList listAllNotes hasSameElements: #().
 ]
