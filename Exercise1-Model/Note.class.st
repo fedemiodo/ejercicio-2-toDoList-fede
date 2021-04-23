@@ -1,5 +1,5 @@
 Class {
-	#name : #ToDo,
+	#name : #Note,
 	#superclass : #Object,
 	#instVars : [
 		'description',
@@ -11,68 +11,87 @@ Class {
 		'status',
 		'startDate'
 	],
+	#classInstVars : [
+		'possibleStatuses'
+	],
 	#category : #'Exercise1-Model'
 }
 
+{ #category : #asserting }
+Note class >> assertIsValidDescription: aDescription [
+	
+	AssertionChecker 
+		enforce: [ aDescription isNotEmpty  ]
+		because: 'The task cannot be empty.'
+		raising: InstanceCreationFailed 
+]
+
 { #category : #'as yet unclassified' }
-ToDo class >> withDescription: aDescription assignedTo: aPerson [
+Note class >> withDescription: aDescription assignedTo: aPerson [
 
 	^ self new 
 	initializeWithDescription: aDescription
 	assignedTo: aPerson
 	openedSince: GregorianCalendar currentDateTime
-	closesOn: ''
-	category: ''
+	closesOn: (Optional unusedBecause: 'There is no end date on instance creation')
+	category: (Optional unusedBecause: 'There is no default category')
 	status: 'Open'.
 ]
 
+{ #category : #comparing }
+Note >> = aNote [
+
+	^ (self assignee = aNote assignee) and: [ self description = aNote description  ]
+
+]
+
 { #category : #accessing }
-ToDo >> assignee [
+Note >> assignee [
 	^ assignee
 ]
 
 { #category : #accessing }
-ToDo >> assignee: aPerson [
+Note >> assignee: aPerson [
 	^ assignee:= aPerson
 ]
 
 { #category : #accessing }
-ToDo >> category [
+Note >> category [
 	^ category
 ]
 
 { #category : #accessing }
-ToDo >> category: aCategory [
+Note >> category: aCategory [
 	category := aCategory
 ]
 
 { #category : #'as yet unclassified' }
-ToDo >> changeCategory: aCategory [ 
+Note >> changeCategory: aCategory [ 
 	self category: aCategory.
 ]
 
 { #category : #'as yet unclassified' }
-ToDo >> changeEndDate: aFixedDate [ 
+Note >> changeEndDate: aFixedDate [ 
 	endDate:= aFixedDate.
 ]
 
 { #category : #'as yet unclassified' }
-ToDo >> changeStatus: aStatus [
+Note >> changeStatus: aStatus [
 	self status: aStatus.
 ]
 
 { #category : #'as yet unclassified' }
-ToDo >> closesOn [
+Note >> closesOn [
 	^ endDate
 ]
 
 { #category : #accessing }
-ToDo >> description [
+Note >> description [
 	^ description
 ]
 
 { #category : #'as yet unclassified' }
-ToDo >> initializeWithDescription: aDescription
+Note >> initializeWithDescription: aDescription
 assignedTo: aPerson
 openedSince: aDate
 closesOn: aSecondDate
@@ -89,21 +108,25 @@ status:= aStatus .
 ]
 
 { #category : #accessing }
-ToDo >> openedSince [
+Note >> openedSince [
 	^ startDate 
 ]
 
-{ #category : #'as yet unclassified' }
-ToDo >> reassignTo: aPerson [
-	self assignee: aPerson.
+{ #category : #printing }
+Note >> printOn: aStream [	 
+	
+	aStream
+		nextPutAll: ('<1s>: <2s>'
+		expandMacrosWith: self assignee 
+		with: self description) .
 ]
 
 { #category : #accessing }
-ToDo >> status [
+Note >> status [
 	^ status
 ]
 
 { #category : #accessing }
-ToDo >> status: aStatus [
+Note >> status: aStatus [
 	status := aStatus
 ]

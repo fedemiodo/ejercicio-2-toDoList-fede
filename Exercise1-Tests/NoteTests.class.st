@@ -7,58 +7,60 @@ Class {
 { #category : #tests }
 NoteTests >> testModifyAssignee [
 	
-	| aToDo |
-	aToDo := ToDo withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
-	self assert: aToDo assignee equals: 'Fede'.
+	| aNote |
+	aNote := Note withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
+	self assert: aNote assignee equals: 'Fede'.
 	
-	aToDo reassignTo: 'Agus'.
-	self assert: aToDo assignee equals: 'Agus'.
+	aNote assignee: 'Agus'.
+	self assert: aNote assignee equals: 'Agus'.
 ]
 
 { #category : #tests }
 NoteTests >> testModifyCategory [
 	
-	| aToDo |
-	aToDo := ToDo withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
-	self assert: aToDo category equals: ''.
-	aToDo changeCategory: 'Urgente'.
-	self assert: aToDo category equals: 'Urgente'.
+	| aNote |
+	aNote := Note withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
+	
+	aNote category withContentDo: [ self fail ] ifUnused: [ ]. 
+	aNote changeCategory: 'Urgente'.
+	self assert: aNote category equals: 'Urgente'.
 ]
 
 { #category : #tests }
 NoteTests >> testModifyEndDate [
 	
-	| aToDo aDate |
+	| aNote aDate |
 	aDate := August twentysixth, 2022. 
-	aToDo := ToDo withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
-	self assert: aToDo closesOn equals: ''.
+	aNote := Note withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
+	aNote closesOn withContentDo: [ self fail ] ifUnused: [ ]. 
 	
-	aToDo changeEndDate: aDate.
-	self assert: aToDo closesOn equals: aDate.
+	aNote changeEndDate: aDate.
+	self assert: aNote closesOn equals: aDate.
 ]
 
 { #category : #tests }
 NoteTests >> testModifyStatus [
 	
-	| aToDo |
-	aToDo := ToDo withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
-	self assert: aToDo status equals: 'Open'.
+	| aNote |
+	aNote := Note withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
+	self assert: aNote status equals: 'Open'.
 	
-	aToDo changeStatus: 'In Progress'.
-	self assert: aToDo status equals: 'In Progress'.
+	aNote changeStatus: 'In Progress'.
+	self assert: aNote status equals: 'In Progress'.
 ]
 
 { #category : #tests }
 NoteTests >> testNoteCreation [
 
-| aToDo |
+| aNote |
 
-aToDo := ToDo withDescription: 'Hola' assignedTo: 'Robert'.
+aNote := Note withDescription: 'Hola' assignedTo: 'Robert'.
 
 self
-	assert: aToDo description equals: 'Hola';
-	assert: aToDo assignee equals: 'Robert';
-	assert: aToDo category equals: '';
-	assert: aToDo closesOn equals: '';
-	assert: aToDo status equals: 'Open'.
+	assert: aNote description equals: 'Hola';
+	assert: aNote assignee equals: 'Robert';
+	assert: aNote status equals: 'Open'.
+	
+	aNote category withContentDo: [ self fail ] ifUnused: [ ].
+	aNote closesOn withContentDo: [ self fail ] ifUnused: [ ]. 
 ]
