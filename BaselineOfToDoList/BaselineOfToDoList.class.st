@@ -22,7 +22,7 @@ BaselineOfToDoList >> setUpDependencies: spec [
 
 	spec baseline: 'Buoy' with: [ spec repository: 'github://ba-st/Buoy:v6/source' ].
 	spec baseline: 'WillowBootstrap' with: [ spec repository: 'github://ba-st/Willow-Bootstrap:v13/source' ].
-	spec baseline: 'Chalten' with: [ spec repository: 'github.com/ba-st/Chalten:v8/source' ].
+	spec baseline: 'Chalten' with: [ spec repository: 'github://ba-st/Chalten:v8/source' ].
 ]
 
 { #category : #baselines }
