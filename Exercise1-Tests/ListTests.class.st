@@ -16,14 +16,13 @@ ListTests >> testCategorizeNote [
 	aList createNote: 'La primer tarea' assignedTo: 'Fede'.
 
 	aList last category withContentDo: [ self fail ] ifUnused: [ ]. 
-	aList last category: 'Urgent'.
-	self assert: aList last category equals: 'Urgent'.
+	aList last category: 'Urgent'.	
+	aList last category withContentDo: [ ] ifUnused: [ self fail ].
+	self assert: aList last category asString equals: 'Urgent'.
 	
-	"aList last category withContentDo: [  ] ifUnused: [ self fail ]."
 	aList last category: 'Entertainment'.
-	self assert: aList last category equals: 'Entertainment'.
-
-
+	aList last category withContentDo: [ ] ifUnused: [ self fail ].
+	self assert: aList last category asString equals: 'Entertainment'.
 ]
 
 { #category : #tests }
@@ -37,6 +36,19 @@ ListTests >> testCreatingANote [
 
 	self assert: aList last assignee equals: 'Fede'.
 	self assert: aList last description equals: 'La primer tarea'.
+]
+
+{ #category : #tests }
+ListTests >> testDeletingANote [
+
+	| aList |
+	aList := ToDoList initializeBelongingTo: 'Mercap'.
+	aList createNote: 'Create a note' assignedTo: 'Fede'.
+	
+	self assert: aList listAllNotes size equals: 1.
+	
+	aList deleteNote: 'Create a note'.
+	self assert: aList listAllNotes size equals: 0.
 ]
 
 { #category : #tests }

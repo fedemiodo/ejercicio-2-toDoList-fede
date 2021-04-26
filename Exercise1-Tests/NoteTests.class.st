@@ -22,8 +22,9 @@ NoteTests >> testModifyCategory [
 	aNote := Note withDescription: 'Volver loco a Q' assignedTo: 'Fede'.
 	
 	aNote category withContentDo: [ self fail ] ifUnused: [ ]. 
-	aNote changeCategory: 'Urgente'.
-	self assert: aNote category equals: 'Urgente'.
+	aNote category: 'Urgente'.
+	aNote category withContentDo: [  ] ifUnused: [ self fail ].
+	self assert: aNote category asString equals: 'Urgente'.
 ]
 
 { #category : #tests }

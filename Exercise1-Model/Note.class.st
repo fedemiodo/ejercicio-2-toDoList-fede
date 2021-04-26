@@ -62,7 +62,7 @@ Note >> category [
 
 { #category : #accessing }
 Note >> category: aCategory [
-	category := aCategory
+	category := Optional containing: aCategory
 ]
 
 { #category : #'as yet unclassified' }

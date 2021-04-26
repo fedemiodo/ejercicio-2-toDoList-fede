@@ -43,6 +43,15 @@ ToDoList >> createNote: aDescription assignedTo: anEmployee [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+ToDoList >> deleteNote: aDescription [ 
+	
+	self listAllNotes
+		detect: [ :aNote | aNote description = aDescription ]
+		ifFound: [ :aNote | self listAllNotes remove: aNote ]		
+		ifNone: 'Note not found.'
+]
+
 { #category : #initialization }
 ToDoList >> initializeBelongingTo: anOwner [
 	
@@ -82,7 +91,7 @@ ToDoList >> listOpenNotes [
 { #category : #'as yet unclassified' }
 ToDoList >> noteWithDescription: aDescription reassign: aName [ 
 
-	allNotes
+	self listAllNotes
 		detect: [ :aNote | aNote description = aDescription ]
 		ifFound: [ :aNote | aNote assignee: aName ]		
 		ifNone: 'Note not found.'
