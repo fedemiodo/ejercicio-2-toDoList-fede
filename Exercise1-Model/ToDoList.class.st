@@ -109,3 +109,9 @@ ToDoList >> reassign: aDescription to: aName [
 	
 	self noteWithDescription: aDescription reassign: aName.
 ]
+
+{ #category : #rendering }
+ToDoList >> renderContentOn: aCanvas [
+
+	aCanvas listItem: allNotes 
+]

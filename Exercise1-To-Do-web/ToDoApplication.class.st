@@ -1,6 +1,13 @@
 Class {
 	#name : #ToDoApplication,
 	#superclass : #WillowApplication,
+	#instVars : [
+		'aList',
+		'tasksContainer',
+		'taskDescriptionField',
+		'addTaskButton',
+		'taskEmployeeField'
+	],
 	#category : #'Exercise1-To-Do-web'
 }
 
@@ -29,40 +36,84 @@ ToDoApplication >> componentSupplierForApplication [
 	^ Html5ComponentSupplier new
 ]
 
+{ #category : #initialization }
+ToDoApplication >> configureInteractions [
+
+   taskDescriptionField on trigger
+      serializeIt;
+      enable: addTaskButton.
+
+	addTaskButton on trigger
+		disable;
+      serverDo:
+			[
+			aList createNote: taskDescriptionField model assignedTo: taskEmployeeField model.
+			tasksContainer := aList listAllNotes.
+			];
+		setValueTo: [ '' ] withoutTriggeringChangeOf: taskDescriptionField;
+		setValueTo: [ '' ] withoutTriggeringChangeOf: taskEmployeeField;
+      render: tasksContainer
+]
+
 { #category : #accessing }
 ToDoApplication >> contentView [
 
-	| items aList |
-	aList := ToDoList initializeBelongingTo: 'Fede'.
-	aList createNote: 'Primer nota' assignedTo: 'Eze'.
-	aList createNote: 'Tercera nota' assignedTo: 'Agus'.  
-	items := aList listAllNotes.
-	^ [ :canvas | self
-		renderInputOn: canvas;
-		renderButtonOn: canvas
-		].
+	^ [ :canvas | canvas
+			heading: aList owner asString;	
+			render: tasksContainer;
+			render: taskDescriptionField;
+			render: taskEmployeeField;
+         render: addTaskButton ]
+]
 
+{ #category : #hooks }
+ToDoApplication >> initialRequest: request [
+	
+	super initialRequest: request.
+	aList := ToDoList initializeBelongingTo: 'Mercap'.
+	self 
+		initializeTasksContainer;
+		initializeTaskDescriptionField;
+		initializeTaskEmployeeField;
+		initializeAddTaskButton;
+		configureInteractions.
+	
+
+	
+]
+
+{ #category : #initialization }
+ToDoApplication >> initializeAddTaskButton [
+
+   addTaskButton := self componentSupplier
+                     asynchronicButtonLabeled: 'Add task'
+                     applying: [ :theButton | theButton beDisabled ]
+]
+
+{ #category : #initialization }
+ToDoApplication >> initializeTaskDescriptionField [
+
+	taskDescriptionField := self componentSupplier 
+		singleLineTextFieldApplying: [ :theField | theField setPlaceholderTo: 'Write a task description...' ]
+]
+
+{ #category : #initialization }
+ToDoApplication >> initializeTaskEmployeeField [
+
+	taskEmployeeField := self componentSupplier 
+		singleLineTextFieldApplying: [ :theField | theField setPlaceholderTo: 'Assign to an employee...' ]
+]
+
+{ #category : #initialization }
+ToDoApplication >> initializeTasksContainer [
+
+	tasksContainer := self componentSupplier 
+		divisionContainerWrapping: [ :canvas | canvas unorderedList: aList listAllNotes  ]
+		applying: [  ]
 ]
 
 { #category : #accessing }
 ToDoApplication >> jQueryLibrary [
 
 	^ JQuery3OnlineLibrary default  
-]
-
-{ #category : #rendering }
-ToDoApplication >> renderButtonOn: aCanvas [
-   | button |
-     button := self componentSupplier
-                       asynchronicButtonLabeled: 'Click me'
-                       applying: [ :theButton | ].
-     aCanvas render: button
-]
-
-{ #category : #rendering }
-ToDoApplication >> renderInputOn: aCanvas [
-   | field |
-    field := self componentSupplier
-                     singleLineTextFieldApplying: [ :theField | ].
-    aCanvas render: field
 ]
