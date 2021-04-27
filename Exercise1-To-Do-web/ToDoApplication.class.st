@@ -6,7 +6,9 @@ Class {
 		'tasksContainer',
 		'taskDescriptionField',
 		'addTaskButton',
-		'taskEmployeeField'
+		'taskEmployeeField',
+		'employees',
+		'addTasksTable'
 	],
 	#category : #'Exercise1-To-Do-web'
 }
@@ -47,12 +49,10 @@ ToDoApplication >> configureInteractions [
 		disable;
       serverDo:
 			[
-			aList createNote: taskDescriptionField model assignedTo: taskEmployeeField model.
-			tasksContainer := aList listAllNotes.
+			aList createNote: taskDescriptionField model assignedTo: taskEmployeeField .
 			];
 		setValueTo: [ '' ] withoutTriggeringChangeOf: taskDescriptionField;
-		setValueTo: [ '' ] withoutTriggeringChangeOf: taskEmployeeField;
-      render: tasksContainer
+      render: tasksContainer.
 ]
 
 { #category : #accessing }
@@ -60,10 +60,10 @@ ToDoApplication >> contentView [
 
 	^ [ :canvas | canvas
 			heading: aList owner asString;	
-			render: tasksContainer;
-			render: taskDescriptionField;
 			render: taskEmployeeField;
-         render: addTaskButton ]
+			render: taskDescriptionField;
+			render: addTaskButton;
+			render: tasksContainer ]
 ]
 
 { #category : #hooks }
@@ -71,11 +71,15 @@ ToDoApplication >> initialRequest: request [
 	
 	super initialRequest: request.
 	aList := ToDoList initializeBelongingTo: 'Mercap'.
+	aList createNote: 'Ir a comer' assignedTo: 'Fede'.
+	aList createNote: 'Ver la TV' assignedTo: 'Fede'.
+	aList createNote: 'Prender la tele' assignedTo: 'Marcelo'.
+	employees := Employees initializeWith: (Set with: 'Fede' with: 'Edu' with: 'Flor').
 	self 
-		initializeTasksContainer;
-		initializeTaskDescriptionField;
 		initializeTaskEmployeeField;
+		initializeTaskDescriptionField;
 		initializeAddTaskButton;
+		initializeTasksContainer;
 		configureInteractions.
 	
 
@@ -87,7 +91,20 @@ ToDoApplication >> initializeAddTaskButton [
 
    addTaskButton := self componentSupplier
                      asynchronicButtonLabeled: 'Add task'
-                     applying: [ :theButton | theButton beDisabled ]
+                     applying: [ :theButton | theButton beDisabled + (theButton addClass bootstrap3 buttonPrimary) ]
+]
+
+{ #category : #initialization }
+ToDoApplication >> initializeAddTasksTable [
+
+	addTasksTable := TableWebViewBuilder new 
+		addColumn: [ :column | column titled: 'Assignee'; rendering: [ :aNote | aNote assignee  ] ];
+		addColumn: [ :column | column titled: 'Description'; rendering: [ :aNote | aNote description ] ];
+		addColumn: [ :column | column titled: 'Status'; rendering: [ :aNote | aNote status  ] ];
+		addColumn: [ :column | column titled: 'Category'; rendering: [ :aNote | aNote category  ] ];
+		addColumn: [ :column | column titled: 'Opened since'; rendering: [ :aNote | aNote openedSince  ] ];
+		buildApplying: [ :theTable | theTable addClass bootstrap3 table ].
+	addTasksTable changeContentsTo: aList listAllNotes .
 ]
 
 { #category : #initialization }
@@ -100,16 +117,25 @@ ToDoApplication >> initializeTaskDescriptionField [
 { #category : #initialization }
 ToDoApplication >> initializeTaskEmployeeField [
 
-	taskEmployeeField := self componentSupplier 
-		singleLineTextFieldApplying: [ :theField | theField setPlaceholderTo: 'Assign to an employee...' ]
+	taskEmployeeField := SingleSelectionWebView
+		dropDownListApplying: [ :theField | ]
+		applyingToOptions: [  ].
+		
+	taskEmployeeField
+		allowAnyOf: employees allEmployees .
 ]
 
 { #category : #initialization }
 ToDoApplication >> initializeTasksContainer [
 
-	tasksContainer := self componentSupplier 
-		divisionContainerWrapping: [ :canvas | canvas unorderedList: aList listAllNotes  ]
-		applying: [  ]
+	tasksContainer  := TableWebViewBuilder new 
+		addColumn: [ :column | column titled: 'Assignee'; rendering: [ :aNote | aNote assignee  ] ];
+		addColumn: [ :column | column titled: 'Description'; rendering: [ :aNote | aNote description ] ];
+		addColumn: [ :column | column titled: 'Status'; rendering: [ :aNote | aNote status  ] ];
+		addColumn: [ :column | column titled: 'Category'; rendering: [ :aNote | aNote category  ] ];
+		addColumn: [ :column | column titled: 'Opened since'; rendering: [ :aNote | aNote openedSince  ] ];
+		buildApplying: [ :theTable | theTable addClass bootstrap3 table ].
+	tasksContainer changeContentsTo: aList listAllNotes .
 ]
 
 { #category : #accessing }
