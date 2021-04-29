@@ -33,8 +33,8 @@ Note class >> withDescription: aDescription assignedTo: aPerson [
 	initializeWithDescription: aDescription
 	assignedTo: aPerson
 	openedSince: GregorianCalendar currentDateTime
-	closesOn: (Optional unusedBecause: 'There is no end date on instance creation')
-	category: (Optional unusedBecause: 'There is no default category')
+	closesOn: (Optional unusedBecause: 'None')
+	category: (Optional unusedBecause: 'None')
 	status: 'Open'.
 ]
 
