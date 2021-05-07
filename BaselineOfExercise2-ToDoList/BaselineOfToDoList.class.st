@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfToDoList,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfToDoList
+	#category : #'BaselineOfExercise2-ToDoList'
 }
 
 { #category : #baselines }

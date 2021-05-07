@@ -1,7 +1,7 @@
 Class {
 	#name : #EmployeeTests,
 	#superclass : #TestCase,
-	#category : #'Exercise1-Tests'
+	#category : #'Exercise2-Tests'
 }
 
 { #category : #tests }
