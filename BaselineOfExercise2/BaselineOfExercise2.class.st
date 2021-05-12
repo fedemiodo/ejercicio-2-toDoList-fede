@@ -30,7 +30,7 @@ BaselineOfExercise2 >> setUpPackages: spec [
 
 	spec for: #pharo do: [ 
 		spec
-			package: 'Exercise2-To-Do-web' with: [ spec requires: #('WillowBootstrap' 'Exercise2-Model') ];
+			package: 'Exercise2-To-Do-Web' with: [ spec requires: #('WillowBootstrap' 'Exercise2-Model') ];
 			package: 'Exercise2-Model' with: [ spec requires: #('Buoy' 'Chalten') ];
 			package: 'Exercise2-Tests'	with: [ spec requires: 'Exercise2-Model' ] ].
 ]
