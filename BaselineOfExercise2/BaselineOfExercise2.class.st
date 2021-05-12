@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfToDoList,
+	#name : #BaselineOfExercise2,
 	#superclass : #BaselineOf,
-	#category : #'BaselineOfExercise2-ToDoList'
+	#category : #BaselineOfExercise2
 }
 
 { #category : #baselines }
-BaselineOfToDoList >> baseline: spec [
+BaselineOfExercise2 >> baseline: spec [
 
 	<baseline>
 	self setUpDependencies: spec.
@@ -13,12 +13,12 @@ BaselineOfToDoList >> baseline: spec [
 ]
 
 { #category : #baselines }
-BaselineOfToDoList >> projectClass [
+BaselineOfExercise2 >> projectClass [
 	^ MetacelloCypressBaselineProject
 ]
 
 { #category : #baselines }
-BaselineOfToDoList >> setUpDependencies: spec [
+BaselineOfExercise2 >> setUpDependencies: spec [
 
 	spec baseline: 'Buoy' with: [ spec repository: 'github://ba-st/Buoy:v6/source' ].
 	spec baseline: 'WillowBootstrap' with: [ spec repository: 'github://ba-st/Willow-Bootstrap:v13/source' ].
@@ -26,7 +26,7 @@ BaselineOfToDoList >> setUpDependencies: spec [
 ]
 
 { #category : #baselines }
-BaselineOfToDoList >> setUpPackages: spec [
+BaselineOfExercise2 >> setUpPackages: spec [
 
 	spec for: #pharo do: [ 
 		spec
