@@ -28,6 +28,22 @@ ListTests >> testAddingAndDeletingToDos [
 ]
 
 { #category : #tests }
+ListTests >> testAddingEqualToDosMultipleTimes [
+
+	| aList aToDo |
+
+	aList := ToDoManagementSystem belongingTo: 'Mercap'.
+	aToDo := ToDo withDescription: 'Find the chamaco.'.
+	aList addToDo: aToDo.
+	aList addToDo: aToDo.
+	aList addToDo: aToDo.
+	aList addToDo: aToDo.
+	
+	self assert: aList listAllNotes size equals: 1.
+	self assertCollection: aList listAllNotes hasSameElements: ( Set with: aToDo ).
+]
+
+{ #category : #tests }
 ListTests >> testCategorizeNote [
 
 	| aList |

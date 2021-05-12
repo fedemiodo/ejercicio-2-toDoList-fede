@@ -32,7 +32,17 @@ ToDoManagementSystem class >> belongingTo: anOwner [
 { #category : #'instance creation' }
 ToDoManagementSystem >> addToDo: aToDo [
 
-	self listAllNotes add: aToDo
+	self assertToDoIsUnique: aToDo.
+
+	^ self listAllNotes
+		add: aToDo;
+		yourself
+]
+
+{ #category : #'instance creation' }
+ToDoManagementSystem >> assertToDoIsUnique: aToDo [
+
+	^ (self listAllNotes includes: aToDo) not
 ]
 
 { #category : #'as yet unclassified' }

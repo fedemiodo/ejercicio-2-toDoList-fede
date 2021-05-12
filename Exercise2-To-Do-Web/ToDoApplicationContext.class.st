@@ -5,8 +5,7 @@ Class {
 		'toDoSystem',
 		'employeeSystem',
 		'currentContextSubView',
-		'mainView',
-		'identifiedMainView'
+		'mainView'
 	],
 	#category : #'Exercise2-To-Do-Web-Application'
 }
@@ -35,12 +34,6 @@ ToDoApplicationContext >> employeeSystem [
 	^ employeeSystem 
 ]
 
-{ #category : #accessing }
-ToDoApplicationContext >> identifiedMainView [
-
-	^ identifiedMainView
-]
-
 { #category : #initialization }
 ToDoApplicationContext >> initializeEmployeeSystem [
 
@@ -51,17 +44,6 @@ ToDoApplicationContext >> initializeEmployeeSystem [
 				with: 'Edu'
 				with: 'Flor'
 				with: 'Unassigned' )
-]
-
-{ #category : #initialization }
-ToDoApplicationContext >> initializeIdentifiedMainView [
-
-	identifiedMainView := ContainerWebView
-		wrapping: [ :aCanvas | aCanvas render: mainView ]
-		intoElementBuiltUsing: [ :canvas | canvas div ]
-		applying: [  ].
-		
-	identifiedMainView beIdentifiable
 ]
 
 { #category : #initialization }
@@ -83,11 +65,15 @@ ToDoApplicationContext >> initializeWorkingWith: theMainView [
 	mainView := theMainView.
 	self
 		initializeToDoSystem;
-		initializeEmployeeSystem;
-		initializeIdentifiedMainView.
+		initializeEmployeeSystem.
 		
 	
 	self changeCurrentSubViewTo: mainView initialNavigationContent 
+]
+
+{ #category : #accessing }
+ToDoApplicationContext >> mainView [
+	^ mainView
 ]
 
 { #category : #accessing }

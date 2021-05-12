@@ -51,7 +51,7 @@ ToDoApplication >> componentSupplierForApplication [
 { #category : #accessing }
 ToDoApplication >> contentView [
 	
-	^	self session applicationContext identifiedMainView
+	^	self session applicationContext mainView 
 ]
 
 { #category : #accessing }

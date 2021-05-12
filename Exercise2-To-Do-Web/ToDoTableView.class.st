@@ -2,7 +2,10 @@ Class {
 	#name : #ToDoTableView,
 	#superclass : #WAPainter,
 	#instVars : [
-		'toDoTable'
+		'toDoTable',
+		'toDoQuickAdd',
+		'toDoQuickAddDescriptionField',
+		'toDoQuickAddConfirmButton'
 	],
 	#category : #'Exercise2-To-Do-Web-Web Views'
 }
@@ -10,7 +13,25 @@ Class {
 { #category : #initialization }
 ToDoTableView >> initialize [
 
-	self initializeToDoTable 
+	self
+		initializeToDoQuickAddContainer;
+		initializeToDoTable
+]
+
+{ #category : #initialization }
+ToDoTableView >> initializeToDoQuickAddContainer [
+
+	self
+		initializeToDoQuickAddDescriptionField;
+		initializeToDoQuickAddConfirmButton.
+	
+	toDoQuickAdd := self componentSupplier
+		divisionContainerWrapping: [ :aCanvas | 
+			aCanvas
+				render: toDoQuickAddDescriptionField;
+				render: toDoQuickAddConfirmButton
+			]
+		applying: [  ]
 ]
 
 { #category : #'initialization-toDoTableView' }
@@ -30,6 +51,6 @@ ToDoTableView >> initializeToDoTable [
 { #category : #rendering }
 ToDoTableView >> renderContentOn: aCanvas [
 
-	toDoTable changeContentsTo: self session applicationContext toDoSystem  listAllNotes.
+	toDoTable changeContentsTo: self session applicationContext toDoSystem listAllNotes.
 	aCanvas render: toDoTable
 ]

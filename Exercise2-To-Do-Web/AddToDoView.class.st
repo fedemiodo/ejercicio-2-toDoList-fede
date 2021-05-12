@@ -12,6 +12,16 @@ Class {
 	#category : #'Exercise2-To-Do-Web-Web Views'
 }
 
+{ #category : #accessing }
+AddToDoView >> addToDoConfirmButton [
+	^ addToDoConfirmButton
+]
+
+{ #category : #accessing }
+AddToDoView >> addToDoDescriptionField [
+	^ addToDoDescriptionField
+]
+
 { #category : #initialization }
 AddToDoView >> initialize [
 
@@ -57,7 +67,7 @@ AddToDoView >> initializeAddToDoConfirmButton [
 
 	addToDoConfirmButton := self componentSupplier
 		asynchronicButtonLabeled: 'Confirm'
-		applying: [ :theButton | theButton addClass bootstrap3 buttonPrimary + theButton beDisabled ].
+		applying: [ :theButton | theButton addClass bootstrap3 buttonPrimary + theButton beDisabled ]
 ]
 
 { #category : #initialization }
@@ -66,7 +76,7 @@ AddToDoView >> initializeAddToDoDescriptionField [
 	addToDoDescriptionField := self componentSupplier
 		singleLineTextFieldApplying: [ :theField | theField setPlaceholderTo: 'Write a description...' ].
 
-	addToDoDescriptionField on change
+	addToDoDescriptionField on trigger
 		serializeIt;
 		enable: addToDoConfirmButton
 ]
@@ -81,7 +91,7 @@ AddToDoView >> initializeAddToDoEndDateField [
 { #category : #rendering }
 AddToDoView >> renderContentOn: aCanvas [
 
-	^ aCanvas
+	aCanvas
 		heading: 'Adding a ToDo';
 		render: addToDoFieldContainer
 ]

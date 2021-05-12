@@ -38,6 +38,17 @@ MainView >> initializeNavigationContentWrapper [
 	navigationContentWrapper beIdentifiable
 ]
 
+{ #category : #accessing }
+MainView >> navigationButtons [
+	^ navigationButtons
+]
+
+{ #category : #accessing }
+MainView >> navigationContentWrapper [
+
+	^ navigationContentWrapper 
+]
+
 { #category : #rendering }
 MainView >> renderContentOn: aCanvas [
 

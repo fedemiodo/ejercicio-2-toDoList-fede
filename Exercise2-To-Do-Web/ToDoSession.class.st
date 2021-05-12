@@ -17,5 +17,5 @@ ToDoSession >> applicationContext [
 ToDoSession >> startUpApplicationContextFor: aToDoApplication [
 
 	super startUpApplicationContextFor: aToDoApplication.
-	applicationContext := ToDoApplicationContext workingWith: MainView new
+	applicationContext := ToDoApplicationContext workingWith: MainView new.
 ]
