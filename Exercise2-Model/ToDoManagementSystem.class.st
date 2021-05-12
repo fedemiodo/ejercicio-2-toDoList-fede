@@ -42,7 +42,7 @@ ToDoManagementSystem >> addToDo: aToDo [
 { #category : #'instance creation' }
 ToDoManagementSystem >> assertToDoIsUnique: aToDo [
 
-	^ (self listAllNotes includes: aToDo) not
+	AssertionChecker enforce: [ (self listAllNotes includes: aToDo) not ] because: [ 'A ToDo cannot be a duplicate of another.' ] raising: InstanceCreationFailed
 ]
 
 { #category : #'as yet unclassified' }

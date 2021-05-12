@@ -3,9 +3,9 @@ Class {
 	#superclass : #WAPainter,
 	#instVars : [
 		'toDoTable',
-		'toDoQuickAdd',
 		'toDoQuickAddDescriptionField',
-		'toDoQuickAddConfirmButton'
+		'toDoQuickAddConfirmButton',
+		'toDoQuickAddContainer'
 	],
 	#category : #'Exercise2-To-Do-Web-Web Views'
 }
@@ -19,19 +19,40 @@ ToDoTableView >> initialize [
 ]
 
 { #category : #initialization }
+ToDoTableView >> initializeToDoQuickAddConfirmButton [
+
+	toDoQuickAddConfirmButton := self componentSupplier
+		asynchronicButtonLabeled: 'Create To-Do'
+		applying: [ :theButton | theButton beDisabled ].
+
+	toDoQuickAddConfirmButton beIdentifiable
+]
+
+{ #category : #initialization }
 ToDoTableView >> initializeToDoQuickAddContainer [
 
 	self
-		initializeToDoQuickAddDescriptionField;
-		initializeToDoQuickAddConfirmButton.
-	
-	toDoQuickAdd := self componentSupplier
-		divisionContainerWrapping: [ :aCanvas | 
+		initializeToDoQuickAddConfirmButton;
+		initializeToDoQuickAddDescriptionField.
+
+	toDoQuickAddContainer := self componentSupplier
+		inlineContainerWrapping: [ :aCanvas | 
 			aCanvas
 				render: toDoQuickAddDescriptionField;
 				render: toDoQuickAddConfirmButton
 			]
 		applying: [  ]
+]
+
+{ #category : #initialization }
+ToDoTableView >> initializeToDoQuickAddDescriptionField [
+
+	toDoQuickAddDescriptionField := self componentSupplier
+		singleLineTextFieldApplying: [ :theField | theField setPlaceholderTo: 'Write a description...' ].
+
+	toDoQuickAddDescriptionField on trigger
+		serializeIt;
+		enable: toDoQuickAddConfirmButton
 ]
 
 { #category : #'initialization-toDoTableView' }
@@ -51,6 +72,25 @@ ToDoTableView >> initializeToDoTable [
 { #category : #rendering }
 ToDoTableView >> renderContentOn: aCanvas [
 
+	self toDoQuickAddConfirmButtonBehavior.
+	
 	toDoTable changeContentsTo: self session applicationContext toDoSystem listAllNotes.
-	aCanvas render: toDoTable
+	aCanvas
+		render: toDoQuickAddContainer;
+		render: toDoTable
+]
+
+{ #category : #'as yet unclassified' }
+ToDoTableView >> toDoQuickAddConfirmButtonBehavior [
+
+	toDoQuickAddConfirmButton on trigger
+		disable;
+		serverDo: [ | aToDo |
+
+			aToDo := ToDo withDescription: toDoQuickAddDescriptionField model.
+			[ self session applicationContext toDoSystem addToDo: aToDo ]
+				on: InstanceCreationFailed
+				do: [ :error |  ]
+			];
+		render: self session applicationContext mainView navigationContentWrapper
 ]

@@ -101,6 +101,14 @@ ToDo >> description [
 	^ description
 ]
 
+{ #category : #comparing }
+ToDo >> hash [
+	"Answer a SmallInteger whose value is related to the receiver's identity.
+	May be overridden, and should be overridden in any classes that define = "
+
+	^ self description hash
+]
+
 { #category : #initialization }
 ToDo >> initializeWithDescription: aDescription
 assignedTo: aPersonName
@@ -126,7 +134,7 @@ ToDo >> openedSince [
 { #category : #printing }
 ToDo >> printOn: aStream [
 
-	aStream nextPutAll: ('<1s>: <2s>' expandMacrosWith: self assignee with: self description)
+	aStream nextPutAll: self description
 ]
 
 { #category : #accessing }
